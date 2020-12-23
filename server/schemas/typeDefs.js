@@ -5,6 +5,7 @@ const { gql } = require('apollo-server-express');
 // Create our typeDefs
 const typeDefs = gql`
 
+# Note 'thoughts' are part/children of 'users'
 type Thought {
     _id: ID
     thoughtText: String
@@ -14,11 +15,22 @@ type Thought {
     reactions: [Reaction]
   }
   
+  # Note 'reactions' are part/children of 'thoughts'
   type Reaction {
     _id: ID
     reactionBody: String
     createdAt: String
     username: String
+  }
+
+  # Note 'friends' are also 'users'
+  type User {
+    _id: ID
+    username: String
+    email: String
+    friendCount: Int
+    thoughts: [Thought]
+    friends: [User]
   }
 
   type Query {
