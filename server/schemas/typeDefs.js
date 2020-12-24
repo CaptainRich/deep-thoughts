@@ -35,11 +35,28 @@ type Thought {
 
 
   type Query {
+    me: User
     users: [User]
     user(username: String!): User
     thoughts(username: String): [Thought]   
     thought(_id: ID!): Thought           
   }
+  
+  # Define the authentication token.  Auth must return a token, but user data is optional.
+  type Auth {
+    token: ID!
+    user: User
+  }
+
+  # The addUser mutation is a 'post', requiring three arguments, returning an 'Auth' object
+  type Mutation {
+    login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!): Auth
+    addThought(thoughtText: String!): Thought
+    addReaction(thoughtId: ID!, reactionBody: String!): Thought
+    addFriend(friendId: ID!): User
+  }
+
 `;
 
 
