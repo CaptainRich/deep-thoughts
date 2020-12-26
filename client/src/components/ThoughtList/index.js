@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
 // ThoughtList receives two 'props'
@@ -14,17 +15,26 @@ const ThoughtList = ({ thoughts, title }) => {
       {thoughts &&
         thoughts.map(thought => (
           //   The 'key' helps React track what data may need to be re-rendered.
+          //   In the DOM, 'Link' becomes '<a></a>', and 'to' becomes 'href' 
           <div key={thought._id} className="card mb-3">
             <p className="card-header">
-              {thought.username}
+              <Link
+                to={`/profile/${thought.username}`}
+                style={{ fontWeight: 700 }}
+                className="text-light"
+              >
+                {thought.username}
+              </Link>{' '}
               thought on {thought.createdAt}
             </p>
             <div className="card-body">
-              <p>{thought.thoughtText}</p>
-              <p className="mb-0">
-                Reactions: {thought.reactionCount} || Click to{' '}
-                {thought.reactionCount ? 'see' : 'start'} the discussion!
-              </p>
+              <Link to={`/thought/${thought._id}`}>
+                <p>{thought.thoughtText}</p>
+                <p className="mb-0">
+                  Reactions: {thought.reactionCount} || Click to{' '}
+                  {thought.reactionCount ? 'see' : 'start'} the discussion!
+                </p>
+              </Link>
             </div>
           </div>
         ))}
