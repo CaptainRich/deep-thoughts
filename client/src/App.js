@@ -20,8 +20,19 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 
 
-// Establish a new connection to GraphQL using Apollo.
+// Establish a new connection to GraphQL using Apollo.  Also, retrieve the user token
+// from localStorage before each request.
 const client = new ApolloClient({
+  request: operation => {
+    const token = localStorage.getItem('id_token');
+
+    // Set the HTTP headers for each request to include the token
+    operation.setContext({
+      headers: {
+        authorization: token ? `Bearer ${token}` : ''
+      }
+    });
+  },
   uri: '/graphql'
 });
 

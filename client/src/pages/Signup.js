@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 
+// These imports take the submitted data and send it to the server.
 import { useMutation } from '@apollo/react-hooks';
 import { ADD_USER } from '../utils/mutations';
+
+// This import takes care of token validation/storage
+import Auth from '../utils/auth';
+
 
 const Signup = () => {
   const [formState, setFormState] = useState({ username: '', email: '', password: '' });
 
-  const [addUser, { error }] = useMutation(ADD_USER);
+  const [addUser, { error }] = useMutation(ADD_USER);  // returns the 'addUser' function
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -24,11 +29,12 @@ const Signup = () => {
   
     // Use try/catch instead of promises to handle errors
     try {
-      // Execute addUser mutation and pass in variable data from form
+      // Execute the 'addUser' mutation and pass in variable data from the form
       const { data } = await addUser({
         variables: { ...formState }
       });
-      console.log(data);
+      
+      Auth.login( data.addUser.token );
     } 
     catch (e) {
       console.error(e);
