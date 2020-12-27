@@ -26,8 +26,6 @@ const Home = () => {
 
   const thoughts = data?.thoughts || [];    // use 'optional chaining' to see if the data exists
   console.log(thoughts);
-  
-  const loggedIn = Auth.loggedIn();
 
   return (
     <main>
